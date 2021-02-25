@@ -12,7 +12,7 @@ jobs:
   # This workflow contains a single job called "build"
   hello_word:
     name: vai_executar_a_tarefa
-    runs-on: pitagoras
+    runs-on: self-hosted
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
