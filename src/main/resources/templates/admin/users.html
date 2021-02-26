@@ -1,0 +1,70 @@
+<html>
+	<head th:replace="~{base :: head}"></head>
+	<body>
+		<div th:replace="~{base :: menutop}"></div>
+		<div class="container-fluid">
+			<div class="row flex-xl-nowrap">
+				<div class="card mx-auto m-3 pb-3" >
+					  <div class="card-body p-2">
+					        <a href="/admin/user-new" class="btn btn-success">Novo Usuário</a>
+					  </div>
+					  <div class="card-body py-2">
+						<h2>Usuários</h2>
+						<table class="table table-hover">
+						  <thead>
+						    <tr>
+						      <th scope="col">Usuário</th>
+						      <th scope="col">Email</th>
+						      <th scope="col" class="text-center" >Habilitado</th>
+						      <th scope="col" class="text-center">Administrador</th>
+						      <th scope="col" class="text-center">Trocar Senha</th>
+						      <th scope="col" class="text-center">Alterar</th>
+						      <th scope="col" class="text-center" >Remover</th>
+						    </tr>
+						  </thead>
+						   <tbody>
+						    <tr th:each="user : ${users}">
+						      <th th:text="${user.username}">username</th>
+						      <td th:text="${user.email}">email</td>
+						      <td class="text-center">
+						      		<div th:if="${user.enabled} eq true">
+					      				<img src="/icons/bootstrap-icons-1.1.0/check.svg" alt="" width="20" height="20" title="Usuário Ativo">
+					      			</div>
+					      			<div th:if="${user.enabled} eq false">
+					      				<img src="/icons/bootstrap-icons-1.1.0/dash.svg" alt="" width="20" height="20" title="Usuário Inativo">
+					      			</div>
+							  </td>
+							  <td class="text-center"> 
+					      			<div th:if="${user.authority.authority == T(br.com.emersonmorgado.peso.model.UserStatus).ROLE_ADM}">
+					      				<img src="/icons/bootstrap-icons-1.1.0/check.svg" alt="" width="20" height="20" title="Usuário Administrador">
+					      			</div>
+						      </td>
+						      <td class="m-0 p-0 text-center">
+						      	<a class="text-center"  th:href="@{/admin/user-update-pass/} + ${user.username}" >
+						      		<img class="my-2 p-0" src="/icons/bootstrap-icons-1.1.0/key.svg" alt="" width="20" height="20" title="Alterar senha">
+								</a>
+						      </td>
+						      <td class="m-0 p-0 text-center">
+						      	<a class="m-0 p-0 text-center"  th:href="@{/admin/user-update/} + ${user.username}">
+						      		<img class="my-2 p-0" src="/icons/bootstrap-icons-1.1.0/sliders.svg" alt="" width="20" height="20" title="Alterar usuário">
+								</a>
+						      </td>
+						      <td class="m-0 p-0 text-center">
+						      	<div th:if="${user.username != 'admin' || user.username != authoritiesService.getAuthorities.getUsername}">
+							      	<form class="m-0 p-0" action="#" th:action="@{/admin/user-delete}" method="post" th:data-username="${user.username}" 
+							      		th:onsubmit="return confirm('Deseja excluir o usuário: ' + this.getAttribute('data-username'))">
+							      		<input class="m-0 p-0" type="hidden" name="username"  th:value="${user.username}" />
+							      		<input  type="hidden" name="email"  th:value="${user.email}" />
+							      		<button type="submit" class="btn mt-1" ><img src="/icons/bootstrap-icons-1.1.0/trash.svg" alt="" width="20" height="20" title="Renover usuário"></button>
+									</form>
+								</div>
+						      </td> 
+						    </tr>
+						  </tbody>
+						</table>
+					  </div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

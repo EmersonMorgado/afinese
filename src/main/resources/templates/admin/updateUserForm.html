@@ -1,0 +1,63 @@
+<html>
+	<head th:replace="~{base :: head}"></head>
+	<body>
+		<div th:replace="~{base :: menutop}"></div>
+		<div class="container-fluid">
+			<div class="row flex-xl-nowrap">
+				<div class="card mx-auto m-3 pb-3" style="width: 40rem;">
+					<div class="card-body">
+						<h2 class="card-title">Atualizar
+						</h2>					
+						<form th:action="@{/admin/user-update}"  th:object="${updateUserDto}" method="post">			
+							<div class="form-group">
+								<label for="username">Nome do Usuário</label>
+								<h3 th:utext=${username} name="username" class="alert alert-warning p-1"></h3>
+								<input th:field="*{username}" th:errorclass="is-invalid" type="hidden" name="username" class="form-control" placeholder="nome" />							
+								<span class="text-danger" th:text="${userExist}">Usuário existente!</span>
+								<div th:errors="*{username}" class="invalid-feedback">
+									Erros no nome.
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="email">Email</label>
+								<input th:field="*{email}" th:errorclass="is-invalid" type="email" name="email" class="form-control" placeholder="email" />
+								<div th:errors="*{email}" class="invalid-feedback">
+									Erros no email.
+								</div>						
+							</div>
+							<div class="form-group">
+									
+							</div>
+							<h5> Tipo da Conta</h5>
+							<div class="form-check form-check-inline pb-3">
+									<div class="form-check-inline">
+									<input th:field="*{type}" type="radio" name="type" value="ROLE_USER"/>
+									<label class="mx-2 form-check-label" for="type">Usuário</label>
+								</div>
+								<div class="form-check-inline">
+									<input th:field="*{type}" type="radio" name="type" value="ROLE_ADM"/>
+									<label class="mx-2 form-check-label" for="type">Administrador</label>
+								</div>
+							</div>
+							<h5> Status do Conta</h5>
+							<div class="form-check form-check-inline pb-3">
+								<div class="form-check-inline">
+									<input th:field="*{status}" type="radio" name="status" value="true"/>
+									<label class="mx-2 form-check-label" for="status">Ativo</label>
+								</div>
+								<div class="form-check-inline">
+									<input th:field="*{status}" type="radio" name="status" value="false"/>
+									<label class="mx-2 form-check-label" for="status">Intativo</label>
+								</div>				
+							</div>
+							<div>
+							<button class="btn btn-success px-4" type="submit">Atualizar</button>
+							<a class="btn btn-danger px-4 ml-3" href="/admin/users">Cancelar</a>
+							</div>
+						</form>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

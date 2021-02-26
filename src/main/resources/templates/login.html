@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head th:replace="~{base :: head}"></head>
+	<body class="st_login">
+	<div class="container-fluid" >
+		<div class="card mx-auto mt-5 st_login_form" style="width: 23rem;">
+			<div class="card-body " >
+				<h1>Web Peso</h1>
+			</div>
+			<div class="card-body" >
+				<div class="">
+					<form th:action="@{/login}" method="post">
+						<div class="form-group">
+							<label id="username">Usuário</label>
+							<input class="form-control" type="text" name="username" placeholder="Nome do usuário"/>
+						</div>
+						<div class="form-group">
+							<label id="password">Senha</label>
+							<input class="form-control"  type="password" name="password" placeholder="Senha"/>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-success" type="submit">Entrar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>	
+	</body>
+</html>

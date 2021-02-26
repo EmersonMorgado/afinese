@@ -1,0 +1,79 @@
+
+<head th:fragment="head">
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	
+	<style>
+		.logo{
+		color:#FFF;
+		}
+		.logo{
+		font-size: 1rem;
+		}
+		.text_menu_bar{
+		color:#001a00;
+		}
+		.st_body{
+		height:100%;
+		}
+		.st_menu_top{
+     	background-color:rgb(203, 167, 208)
+     	}
+		.st_login{
+		background-color:rgb(203, 167, 208)
+		}
+		.st_login_form{
+		background-color:rgb(238, 238, 236)
+		}
+		
+	</style>
+	<title>Web Peso</title>
+</head>
+
+<div th:fragment="menutop" class="st_menu_top sticky-top">
+	<header class="nav  justify-content-between logo">
+		<div class=" col " sec:authorize="isAuthenticated()">
+			<nav class=" navbar-nav flex-row">
+				<a th:href="@{/home}" class="pt-2 pr-4">
+					<img src="/icons/bootstrap-icons-1.1.0/display.svg" alt="" width="38" height="38" title="Web Peso">
+				</a>
+				<a class="px-2 py-3 text_menu_bar" th:href="@{/home}">Home</a>
+				<a class="px-4 py-3 text_menu_bar" th:href="@{/user/weight/0}">Peso</a>
+			</nav>
+		</div>
+		<div class="py-3 col col-md-auto navbar-nav flex-row text_menu_bar" sec:authorize="isAuthenticated()">
+			<div th:if="${authoritiesService.getAuthorities.getAuthority == T(br.com.emersonmorgado.peso.model.UserStatus).ROLE_ADM}">
+				<span class="text_menu_bar">
+					<a href="/admin/users" ><img src="/icons/bootstrap-icons-1.1.0/people.svg" alt="" width="20" height="20" title="Usuários"></a>
+				</span>
+			</div>
+		</div>
+		<div class="py-3 col col-md-auto navbar-nav flex-row text_menu_bar" sec:authorize="isAuthenticated()">
+			<span class="text_menu_bar">
+			<a th:href="@{/user/profile/}">
+				<img src="/icons/bootstrap-icons-1.1.0/person.svg" alt="" width="20" height="20" title="Perfil do Usuário">
+			</a>
+			</span>
+		</div>
+		<div class="py-3 col col-md-auto navbar-nav flex-row text_menu_bar" sec:authorize="isAuthenticated()">
+		<a th:href="@{/user/profile/}" class="text_menu_bar" title="Perfil do Usuário">
+				<span th:utext="${authoritiesService.getAuthorities.getUsername}">userName</span>
+		</a>
+		</div>		
+		<div class="py-3 col col-md-auto navbar-nav flex-row text_menu_bar" >
+			<a sec:authorize="!isAuthenticated()" class="pr-4 text_menu_bar" href="/login">Entrar</a>
+			<a onclick="document.querySelector('#form-login').submit()" sec:authorize="isAuthenticated()" class="pr-4 text_menu_bar" href="#">
+				<img src="/icons/bootstrap-icons-1.1.0/box-arrow-right.svg" alt="" width="20" height="20" title="Sair">
+				<span class="">sair</span>
+			</a>
+			<form id="form-login" th:action="@{/logout}" method="post"></form>
+		</div>
+	</header>	
+</div>
+
+
+
+
+
+
+
