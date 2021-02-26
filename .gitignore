@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+/bin
+/target
+*.log
+mvnw.cmd
+mvnw
+hs_err**
+
