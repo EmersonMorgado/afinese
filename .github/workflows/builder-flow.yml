@@ -37,17 +37,16 @@ jobs:
           MAINTAINER Emerson Morgado
           COPY . /var/app
           WORKDIR /var/app
-          ENTRYPOINT java -jar -Dspring.profiles.active=dev app.jar
-          EXPOSE 8080
       - name: Criar imagem docker
         run: |
           cd docker
           docker build -f Dockerfile -t emersonmorgado/afinese .
+          docker push emersonmorgado/afinese
 
-  deploy:
+  deploy-develop:
     needs: [image]
     name: deploy application for test
     runs-on: self-hosted
     steps:
-      - name: Deploy da aplicação no amboente de teste e homologação
+      - name: Deploy da aplicação no ambiente de teste e homologação
         run: echo "Subir a imagem salva no dockerhub para o ambiente de homologação"
