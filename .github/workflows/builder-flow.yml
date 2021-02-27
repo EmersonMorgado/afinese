@@ -7,8 +7,8 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  builder-image:
-    name: Contruir a imagem
+  builder:
+    name: builder java file
     runs-on: self-hosted
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -28,3 +28,17 @@ jobs:
           pwd
           mvn clean
           mvn install
+  image:
+    needs: [builder]
+    name: create docker image
+    runs-on: self-hosted
+    steps:
+      - name: Comando para criar e publivar uma imagem no dockerhub
+        run: echo "imagem criada"
+  deploy:
+    needs: [image]
+    name: deploy application for test
+    runs-on: self-hosted
+    steps:
+      - name: Deploy da aplicação no amboente de teste e homologação
+        run: echo "Subir a imagem salva no dockerhub para o ambiente de homologação"
