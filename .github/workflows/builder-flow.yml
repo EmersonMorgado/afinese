@@ -26,7 +26,7 @@ jobs:
       - name: Builder da aplicação
         run: |
           pwd
-          docker run -it --rm --name my-maven-project -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven mvn clean install
+          docker run -it --rm --name my-maven-project -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven mvn install
            
  #     - name: Clone do repositorio afinese no branch develop
  #       run: git clone --branch develop https://github.com/EmersonMorgado/afinese.git
