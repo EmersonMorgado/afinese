@@ -20,11 +20,11 @@ jobs:
         run: |
           pwd
           cd /home/morgado/actions-runner/_work
-          #rm -rf /home/morgado/actions-runner/_work/afinese/
+          #rm -rf /home/morgado/actions-runner/_work/afinese/*
       - name: Clonar repositório develop
         run: |
-          cd /home/morgado/actions-runner/_work
-          git clone --branch develop https://github.com/EmersonMorgado/afinese.git
+          pwd
+         # git clone --branch develop https://github.com/EmersonMorgado/afinese.git
       - name: Contruindo as imagem
         run: |
           pwd
