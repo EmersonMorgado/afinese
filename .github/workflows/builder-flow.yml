@@ -19,7 +19,7 @@ jobs:
       - name: Entrar no diretorio
         run: |
           pwd
-          cd $(HOME)/actions-runner/_work/
+          cd /home/morgado/actions-runner/_work
       - name: Limpar diretorio
         run: pwd
  #     - name: Clone do repositorio afinese no branch develop
