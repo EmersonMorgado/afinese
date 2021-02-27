@@ -29,15 +29,20 @@ jobs:
     steps:
       - name: Criar dockerfile
         run: |
+          mkdir docker
+          cp target/*.jar docker/
+          cd docker
           cat > Dockerfile << EOT
           FROM openjdk:11-jdk
           MAINTAINER Emerson Morgado
-          COPY target/peso-0.0.1-SNAPSHOT.jar /var/app
+          COPY . /var/app
           WORKDIR /var/app
-          ENTRYPOINT java -jar -Dspring.profiles.active=dev peso-0.0.1-SNAPSHOT.jar
+          ENTRYPOINT java -jar -Dspring.profiles.active=dev app.jar
           EXPOSE 8080
       - name: Criar imagem docker
-        run: docker build -f Dockerfile -t emersonmorgado/afinese .
+        run: |
+          cd docker
+          docker build -f Dockerfile -t emersonmorgado/afinese .
 
   deploy:
     needs: [image]
