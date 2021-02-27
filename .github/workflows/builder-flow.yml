@@ -1,31 +1,25 @@
 name: Develop-builder
-
 on:
   workflow_dispatch:
   push:
     branches: [ develop ]
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    
 jobs:
-  # This workflow contains a single job called "build"
   builder:
     name: builder java file
     runs-on: self-hosted
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       #- uses: actions/checkout@v2
-
+      
       - name: Limpar diretório existente e clonar repositório no branch develop
         run: |
-          pwd
           cd ..
-          pwd
           rm -rf *
           git clone --branch develop https://github.com/EmersonMorgado/afinese.git
+          
       - name: Builder da aplicação
         run: |
-          pwd
           mvn clean
           mvn install
   image:
@@ -34,7 +28,16 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Comando para criar e publivar uma imagem no dockerhub
-        run: echo "imagem criada"
+        run: |
+          echo "imagem criada"
+          cat > app.dockerfile << EOT
+          FROM openjdk:11-jdk
+          MAINTAINER Emerson Morgado
+          COPY . /var/app
+          WORKDIR /var/app
+          ENTRYPOINT java -jar -Dspring.profiles.active=prod forum.jar
+          EXPOSE 8080
+          EOT        
   deploy:
     needs: [image]
     name: deploy application for test
