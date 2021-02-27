@@ -27,17 +27,18 @@ jobs:
     name: create docker image
     runs-on: self-hosted
     steps:
-      - name: Comando para criar e publivar uma imagem no dockerhub
+      - name: Criar dockerfile
         run: |
-          echo "imagem criada"
-          cat > app.dockerfile << EOT
+          cat > Dockerfile << EOT
           FROM openjdk:11-jdk
           MAINTAINER Emerson Morgado
-          COPY . /var/app
+          COPY target/peso-0.0.1-SNAPSHOT.jar /var/app
           WORKDIR /var/app
-          ENTRYPOINT java -jar -Dspring.profiles.active=prod forum.jar
+          ENTRYPOINT java -jar -Dspring.profiles.active=dev peso-0.0.1-SNAPSHOT.jar
           EXPOSE 8080
-          EOT        
+      - name: Criar imagem docker
+        run: docker build -f Dockerfile -t emersonmorgado/afinese .
+
   deploy:
     needs: [image]
     name: deploy application for test
