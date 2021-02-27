@@ -1,4 +1,4 @@
-name: CI Develop - builder
+name: Develop-builder
 
 on:
   workflow_dispatch:
@@ -28,13 +28,3 @@ jobs:
           pwd
           mvn clean
           mvn install
-  build:
-    runs-on: self-hosted
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      #- uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: ver variave $GITHUB_WORKSPACE
-        run: $GITHUB_WORKSPACE
-
