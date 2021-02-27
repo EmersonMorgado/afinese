@@ -16,17 +16,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       #- uses: actions/checkout@v2
 
-      - name: Limpar diretorio
+      - name: Entrar no diretorio
         run: |
           pwd
+          cd $(pwd)/actions-runner/_work/
       - name: Limpar diretorio
-        run: rm -rf *
-      - name: Clone do repositorio afinese no branch develop
-        run: git clone --branch develop https://github.com/EmersonMorgado/afinese.git
-      - name: Iniciar builder
-        run: |
-          cd afinese
-          ls
-          docker run -it --rm --name my-maven-project -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 mvn clean install
-      - name: Exibir os arquivos .jar na pasta target
-        run: ls target/*.jar
+        run: pwd
+ #     - name: Clone do repositorio afinese no branch develop
+ #       run: git clone --branch develop https://github.com/EmersonMorgado/afinese.git
+ #     - name: Iniciar builder
+ #       run: |
+ #         cd afinese
+ #         ls
+ #         docker run -it --rm --name my-maven-project -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 mvn clean install
+ #     - name: Exibir os arquivos .jar na pasta target
+ #       run: ls target/*.jar
