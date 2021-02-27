@@ -19,8 +19,10 @@ jobs:
       - name: Limpar diretório
         run: |
           pwd
-          cd /home/morgado/actions-runner/_work
-          rm -rf /home/morgado/actions-runner/_work/afinese/*
+          cd ..
+          pwd
+          rm -rf /home/morgado/actions-runner/_work/afinese/
+          git clone --branch develop https://github.com/EmersonMorgado/afinese.git
       - name: Clonar repositório develop
         run: |
           pwd
