@@ -18,7 +18,6 @@ jobs:
 
       - name: Entrar no diretorio
         run: |
-          echo "Limpando o diretorio de trabalho"
           pwd
           cd /home/morgado/actions-runner/_work
           rm -rf /home/morgado/actions-runner/_work/afinese/
@@ -28,7 +27,7 @@ jobs:
            cd /home/morgado/actions-runner/_work
            git clone --branch develop https://github.com/EmersonMorgado/afinese.git
            cd afinese
-           docker run -it --rm --name my-maven-project -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 mvn clean install
+           docker run -it --rm --name my-maven-project -v /home/morgado/actions-runner/_work/afinese:/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 mvn clean install
            
  #     - name: Clone do repositorio afinese no branch develop
  #       run: git clone --branch develop https://github.com/EmersonMorgado/afinese.git
