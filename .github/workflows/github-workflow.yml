@@ -1,4 +1,4 @@
-name: CI
+name: CI Develop
 
 on:
   push:
@@ -24,6 +24,7 @@ jobs:
       - name: Iniciar builder
         run: |
           cd afinese
+          ls
           docker run -it --rm --name my-maven-project -v "$(pwd)":/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 mvn clean install
       - name: Exibir os arquivos .jar na pasta target
         run: ls target/*.jar
