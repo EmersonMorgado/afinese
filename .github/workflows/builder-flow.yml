@@ -16,19 +16,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       #- uses: actions/checkout@v2
 
-      - name: Limpar diretório
+      - name: Limpar diretório existente e clonar repositório no branch develop
         run: |
           pwd
-          cd /home/morgado/actions-runner/_work
-          #rm -rf /home/morgado/actions-runner/_work/afinese/*
-      - name: Clonar repositório develop
+          cd ..
+          pwd
+          rm -rf *
+          git clone --branch develop https://github.com/EmersonMorgado/afinese.git
+      - name: Builder da aplicação
         run: |
           pwd
-         # git clone --branch develop https://github.com/EmersonMorgado/afinese.git
-      - name: Contruindo as imagem
-        run: |
-          pwd
-#          docker run -it --rm --name my-maven-project -v /home/morgado/actions-runner/_work/afinese:/usr/src/mymaven -w /usr/src/mymaven maven:3.3-jdk-8 mvn clean install
+          mvn clean
+          mvn install
            
  #     - name: Clone do repositorio afinese no branch develop
  #       run: git clone --branch develop https://github.com/EmersonMorgado/afinese.git
