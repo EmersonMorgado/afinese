@@ -1,0 +1,16 @@
+name: Production-deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy-production:
+    name: deploy application
+    runs-on: self-hosted
+    steps:
+      - name: Deploy da aplicação no ambiente de produção
+        run: |
+          echo "Subir a imagem salva no dockerhub para o ambiente de produção"
+          cd $HOME/spring-afinese/prod
+          docker-compose up -d
