@@ -47,7 +47,7 @@ public class WeightController {
 		System.out.println(weights.getNumber());
 		
 		model.addAttribute("weights", weights);
-		return "/user/weight";
+		return "user/weight";
 	}
 	
 	@PostMapping("weight-new")
@@ -59,7 +59,7 @@ public class WeightController {
 			Pageable pageable = PageRequest.of(0, 10, sort);
 			Page<Weight> weights = weightService.findAllByUsername(authoritiesService.getAuthorities().getUsername(),pageable);
 			model.addAttribute("weights", weights);
-			return "/user/weight";
+			return "user/weight";
 		}
 		weightService.addWeigh(weightForm);
 		return "redirect:/user/weight";

@@ -1,0 +1,59 @@
+name: Develop-builder
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+    
+jobs:
+  builder:
+    name: builder java file
+    runs-on: self-hosted
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      #- uses: actions/checkout@v2
+      
+      - name: Limpar diretório existente e clonar repositório no branch develop
+        run: |
+          cd ..
+          rm -rf *
+          git clone --branch develop https://github.com/EmersonMorgado/afinese.git
+          
+      - name: Builder da aplicação
+        run: |
+          mvn clean
+          mvn install
+  image:
+    needs: [builder]
+    name: create docker image
+    runs-on: self-hosted
+    steps:
+      - name: Criar dockerfile
+        run: |
+          mkdir docker
+          cp target/*.jar docker/
+          cd docker
+          cat > Dockerfile << EOT
+          FROM openjdk:11-jdk
+          MAINTAINER Emerson Morgado
+          COPY . /var/app
+          WORKDIR /var/app
+          ENTRYPOINT java -jar -Dspring.profiles.active=$PRE$POS peso-0.0.1-SNAPSHOT.jar
+        env:
+          PRE: $
+          POS: PROFILE
+      - name: Criar imagem docker
+        run: |
+          cd docker
+          docker build -f Dockerfile -t emersonmorgado/afinese .
+          docker push emersonmorgado/afinese
+
+  deploy-develop:
+    needs: [image]
+    name: deploy application for test
+    runs-on: self-hosted
+    steps:
+      - name: Deploy da aplicação no ambiente de teste e homologação
+        run: |
+          echo "Subir a imagem salva no dockerhub para o ambiente de homologação"
+          cd $HOME/spring-afinese/dev
+          docker-compose up -d
