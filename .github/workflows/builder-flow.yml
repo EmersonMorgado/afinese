@@ -37,7 +37,7 @@ jobs:
           MAINTAINER Emerson Morgado
           COPY . /var/app
           WORKDIR /var/app
-          ENTRYPOINT java -jar -Dspring.profiles.active=($PROFILE) peso-0.0.1-SNAPSHOT.jar
+          ENTRYPOINT java -jar -Dspring.profiles.active=$PROFILE peso-0.0.1-SNAPSHOT.jar
       - name: Criar imagem docker
         run: |
           cd docker
@@ -50,4 +50,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Deploy da aplicação no ambiente de teste e homologação
-        run: echo "Subir a imagem salva no dockerhub para o ambiente de homologação"
+        run: |
+          echo "Subir a imagem salva no dockerhub para o ambiente de homologação"
+          cd $HOME/spring-afinese/prod
+          docker-compose up
+        
