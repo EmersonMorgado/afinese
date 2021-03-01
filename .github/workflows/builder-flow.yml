@@ -37,6 +37,7 @@ jobs:
           MAINTAINER Emerson Morgado
           COPY . /var/app
           WORKDIR /var/app
+          ENTRYPOINT java -jar -Dspring.profiles.active=($PROFILE) app.jar
       - name: Criar imagem docker
         run: |
           cd docker
