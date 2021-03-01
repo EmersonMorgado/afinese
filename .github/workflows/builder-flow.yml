@@ -53,5 +53,4 @@ jobs:
         run: |
           echo "Subir a imagem salva no dockerhub para o ambiente de homologação"
           cd $HOME/spring-afinese/prod
-          docker-compose up
-        
+          docker-compose up -d
