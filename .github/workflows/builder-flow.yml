@@ -37,9 +37,10 @@ jobs:
           MAINTAINER Emerson Morgado
           COPY . /var/app
           WORKDIR /var/app
-          RUN PRE=$
-          RUN POS=PROFILE
           ENTRYPOINT java -jar -Dspring.profiles.active=$PRE$POS peso-0.0.1-SNAPSHOT.jar
+        env:
+          PRE: $
+          POS: PROFILE
       - name: Criar imagem docker
         run: |
           cd docker
