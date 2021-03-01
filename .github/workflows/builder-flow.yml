@@ -52,5 +52,5 @@ jobs:
       - name: Deploy da aplicação no ambiente de teste e homologação
         run: |
           echo "Subir a imagem salva no dockerhub para o ambiente de homologação"
-          cd $HOME/spring-afinese/prod
+          cd $HOME/spring-afinese/dev
           docker-compose up -d
