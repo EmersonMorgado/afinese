@@ -69,7 +69,7 @@ public class AdminController {
 		model.addAttribute(authoritiesService);
 		User user = userService.getFindByUsername(username);
 		updateUserDto.setUser(user);
-		return "/admin/updateUserForm";
+		return "admin/updateUserForm";
 	}
 
 	@PostMapping("user-update")
@@ -87,7 +87,7 @@ public class AdminController {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
 		passUpdateUserDto.setUsername(username);
-		return "/admin/passUpdateForm";
+		return "admin/passUpdateForm";
 	}
 	
 	@PostMapping("user-update-pass")
