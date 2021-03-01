@@ -32,7 +32,7 @@ public class UserController {
 		model.addAttribute(authoritiesService);
 		User user = userService.getFindByUsername(authentication.getName());
 		updateProfileDto.setUser(user);
-		return "/user/updateProfileForm";
+		return "user/updateProfileForm";
 	}
 
 	@PostMapping("profile-update")
@@ -40,13 +40,13 @@ public class UserController {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
 		if(result.hasErrors()) {
-			return "/user/updateProfileForm";
+			return "user/updateProfileForm";
 		}
 		try {
 			userService.updateProfile(updateProfileDto);
 		} catch (Exception e) {
 			model.addAttribute("passError", e.getMessage());
-			return "/user/updateProfileForm";
+			return "user/updateProfileForm";
 		}
 		return "redirect:/home";
 	}
