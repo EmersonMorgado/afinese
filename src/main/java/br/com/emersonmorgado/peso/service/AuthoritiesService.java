@@ -13,6 +13,7 @@ public class AuthoritiesService {
 
 	public void setAuthority(Authentication authentication) {
 		String auth = authentication.getAuthorities().toString().substring(1, authentication.getAuthorities().toString().length()-1);
+		System.out.println("uuuuuuu");
 		authorities.setAuthority(UserStatus.valueOf(auth));
 		authorities.setUsername(authentication.getName());
 	}

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.emersonmorgado.peso.controller.dto.PassUpdateUserDto;
+import br.com.emersonmorgado.peso.controller.dto.UpdateEmailDto;
 import br.com.emersonmorgado.peso.controller.dto.UpdateProfileDto;
 import br.com.emersonmorgado.peso.controller.dto.UpdateUserDto;
 import br.com.emersonmorgado.peso.model.Authorities;
@@ -61,12 +62,12 @@ public class UserService {
 		}
 	}
 
-	public void updateProfile(UpdateProfileDto updateProfileDto) {
+	public void updatePassUserForm(UpdateProfileDto updateProfileDto) {
 		boolean changer = false;
 		User user = userRepository.findByUsername(updateProfileDto.getUsername());
 		if(!updateProfileDto.getNewPassword().trim().isEmpty()) {
 			if(updateProfileDto.getPassword().trim().isEmpty()) {
-				throw new NullPointerException("A senha atual senha não podem ser vazia");
+				throw new NullPointerException("A senha atual não podem ser vazia");
 			}
 			if(BCrypt.checkpw(updateProfileDto.getPassword(), user.getPassword())){
 				BCryptPasswordEncoder encoded = new BCryptPasswordEncoder();
@@ -76,7 +77,7 @@ public class UserService {
 				throw new NullPointerException("Invalid password");
 			}
 		}else if(!updateProfileDto.getPassword().trim().isEmpty()){
-			throw new NullPointerException("Nova senha não podem ser vazia");
+			throw new NullPointerException("A nova senha não podem ser vazia");
 		}
 		if(!updateProfileDto.getEmail().equals(user.getEmail())) {
 			user.setEmail(updateProfileDto.getEmail());
@@ -84,10 +85,17 @@ public class UserService {
 		}
 		if(changer) {
 			userRepository.save(user);
-			throw new NullPointerException("Atualização realizada!");
+			throw new NullPointerException("Senha alterada com sucesso!");
 		}
 	}
 
+	public String updateEmail(UpdateEmailDto updateEmailDto, String userName) {
+		User user = userRepository.findByUsername(userName);
+		user.setEmail(updateEmailDto.getEmail());
+		userRepository.save(user);
+		return "Email Atualizado com sucesso!";
+		}
+	
 	public void deletUser(@Valid UpdateProfileDto updateProfileDto) {
 		if(userRepository.existsById(updateProfileDto.getUsername())) {
 			authoritiesRepository.deleteById(updateProfileDto.getUsername());

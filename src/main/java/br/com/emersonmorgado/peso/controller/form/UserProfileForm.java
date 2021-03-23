@@ -41,7 +41,7 @@ public class UserProfileForm {
 		User user = new User();
 		user.setUsername(username);
 		
-		UserProfile userProfile = new UserProfile(user);
+		UserProfile userProfile = new UserProfile();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		userProfile.setBirthday(LocalDate.parse(birthday, formatter));
 		userProfile.setHeight(Double.parseDouble(height));

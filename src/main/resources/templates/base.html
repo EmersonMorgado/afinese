@@ -1,8 +1,14 @@
 
 <head th:fragment="head">
 	<meta charset="UTF-8" />
-	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/bootstrap.grid.css">
+	<link rel="stylesheet" href="/css/bootstrap.reboot.css">
 	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
 	<style>
 		.logo{
 		color:#FFF;
@@ -48,23 +54,29 @@
 				</span>
 			</div>
 		</div>
-		<div class="py-3 col col-md-auto navbar-nav flex-row text_menu_bar" sec:authorize="isAuthenticated()">
-			<span class="text_menu_bar">
-			<a th:href="@{/user/profile/}">
-				<img src="/icons/bootstrap-icons-1.1.0/person.svg" alt="" width="20" height="20" title="Perfil do Usuário">
-			</a>
-			</span>
+		<div class="dropdown">
+			<div class="  py-3 col col-md-auto navbar-nav flex-row text_menu_bar dropdown-toggle" 
+				aria-expanded="true" 
+				aria-haspopup="true" 
+				data-toggle="dropdown" 
+				sec:authorize="isAuthenticated()" >
+				<a href="" class="text_menu_bar">
+					<span th:utext="${authoritiesService.getAuthorities.getUsername}">userName</span>
+				</a>
+			</div>
+			<div class="dropdown-menu dropdown-menu-right"  >
+				<h6 class="dropdown-header">Ajustes</h6>
+				<a class="dropdown-item" th:href="@{/user/profile}">Dados Pessoais</a>
+				<a class="dropdown-item" th:href="@{/user/profile}">Meta</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" th:href="@{/user/profile-update-email}">Atualizar email</a>
+				<a class="dropdown-item" th:href="@{/user/profile-update-pass}">Trocar senha</a>
+			</div>					
 		</div>
-		<div class="py-3 col col-md-auto navbar-nav flex-row text_menu_bar" sec:authorize="isAuthenticated()">
-		<a th:href="@{/user/profile/}" class="text_menu_bar" title="Perfil do Usuário">
-				<span th:utext="${authoritiesService.getAuthorities.getUsername}">userName</span>
-		</a>
-		</div>		
 		<div class="py-3 col col-md-auto navbar-nav flex-row text_menu_bar" >
 			<a sec:authorize="!isAuthenticated()" class="pr-4 text_menu_bar" href="/login">Entrar</a>
 			<a onclick="document.querySelector('#form-login').submit()" sec:authorize="isAuthenticated()" class="pr-4 text_menu_bar" href="#">
 				<img src="/icons/bootstrap-icons-1.1.0/box-arrow-right.svg" alt="" width="20" height="20" title="Sair">
-				<span class="">sair</span>
 			</a>
 			<form id="form-login" th:action="@{/logout}" method="post"></form>
 		</div>
