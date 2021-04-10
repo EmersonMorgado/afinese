@@ -4,26 +4,63 @@
 		<div th:replace="~{base :: menutop}"></div>	
 		
 		<div class="container-fluid">
-			<div class="btn-group">
-				<button type="button" class="btn btn-danger dropdown-toggle"
-					data-toggle="dropdown" aria-expanded="false">Action</button>
-				<ul class="dropdown-menu">
-					<li><a class="dropdown-item" href="#">Action</a></li>
-					<li><a class="dropdown-item" href="#">Another action</a></li>
-					<li><a class="dropdown-item" href="#">Something else here</a></li>
-					<li><hr class="dropdown-divider"></li>
-					<li><a class="dropdown-item" href="#">Separated link</a></li>
-				</ul>
-			</div>
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button"
-					id="dropdownMenuButton1" data-toggle="dropdown"
-					aria-expanded="false">Dropdown button</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-					<li><a class="dropdown-item" href="#">Action</a></li>
-					<li><a class="dropdown-item" href="#">Another action</a></li>
-					<li><a class="dropdown-item" href="#">Something else here</a></li>
-				</ul>
+		
+			<div class="card mx-auto m-3" style="width: 40rem;">
+				<div class="card-body">
+					<h4 class="card-title pb-2">Perfil do usuário</h4>				
+					<form th:action="@{/user/profile}"  th:object="${userProfileDto}" method="post">							
+						<div class="form-group">
+							<div class="py-2">
+								<label for="username">Usuário: </label>
+								<input th:errorclass="is-invalid" type="text" name="username" th:field="*{username}" class="form-control" readonly/>
+							</div>
+							<div class="py-2">							
+								<label for="email">E-mail: </label>
+								<input th:errorclass="is-invalid" type="text" name="email" th:field="*{email}" class="form-control" readonly/>
+							</div>
+							<div class="py-2">
+								<label  for="name">Nome</label>
+								<input th:errorclass="is-invalid" type="text" name="name" th:field="*{name}" class="form-control" placeholder="Nome completo" />
+							</div>
+							<div th:errors="*{name}" class="invalid-feedback">Erros</div>
+							<div class="row align-items-start pt-2">
+								<div class="col">
+									<label for="birthday">Data Nascimento</label>
+									<input th:errorclass="is-invalid" type="date" name="birthday" th:value="*{birthdayDate}" class="form-control"/>
+									<div th:errors="*{birthday}" class="invalid-feedback">Erros</div>
+								</div>
+								<div class="col">
+									<label for="sex">Gênero</label>
+									<select th:field="*{sex}" name="sex" class="form-select form-select-lg mb-3 form-control">
+									  <option value="">Informe o gênero</option>
+									  <option value="MALE">Masculino</option>
+									  <option value="FEMALE">Feminino</option>
+									</select>
+								</div>
+							</div>
+							<div class="row align-items-start pt-2">
+								<div class="col">
+									<label for="height">Altura (metros)</label>
+									<input th:errorclass="is-invalid" type="number" name="height" th:field="*{height}" class="form-control" placeholder="Altura" required min="0" max="2.2" value="0" step=".01"/>
+									<div th:errors="*{height}" class="invalid-feedback">Erros</div>	
+								</div>
+								<div class="col">
+									<label for="targetWeight">Meta (Kg)</label>
+									<input th:errorclass="is-invalid" type="number" name="targetWeight" th:field="*{targetWeight}" class="form-control" placeholder="Meta" required min="0" max="180" value="0" step=".01"/>
+									<div th:errors="*{targetWeight}" class="invalid-feedback">Erros</div>	
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col align-self-end"></div>
+							<div class="col align-self-end">
+								<button class="btn btn-success px-4" type="submit">Atualizar</button>
+								<a class="btn btn-danger px-4 ml-3" href="/home">Cancelar</a>
+								<span class="text-danger" th:text="${serverInfo}">server info!</span>
+							</div>
+						</div>
+					</form>	
+				</div>
 			</div>
 		</div>
 	</body>

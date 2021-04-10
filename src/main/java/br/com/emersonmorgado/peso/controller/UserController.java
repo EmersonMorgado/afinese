@@ -31,32 +31,20 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private UserProfileRepository userProfileRepository;
-	
 	@GetMapping("profile")
-	public String updateUserForm(UserProfileDto userProfileDto, Model model, Authentication authentication) {
+	public String geProfile(UserProfileDto userProfileDto, Model model, Authentication authentication) {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
-		User user = userService.getFindByUsername(authentication.getName());
-		userProfileDto.setUser(user);
-//		UserProfile userProfile = new UserProfile();
-//		LocalDate birthday =  LocalDate.of(1981, 10, 12);
-//		userProfile.setBirthday(birthday);
-//		userProfile.setHeight(1);
-//		userProfile.setName("Emerson do Nascimento Silvestre Morgado");
-//		userProfile.setSex(Sex.MALE);
-//		userProfile.setUser(user);
-//		
-//		userProfileRepository.save(userProfile);
-//		
-//		user.setUserProfile(userProfile);
-//		userRepository.save(user);
-
+		userService.setUserProfile(userService.getFindByUsername(authentication.getName()), userProfileDto);
 		return "user/profile";
+	}
+	
+	@PostMapping("profile")
+	public String updateProfile(UserProfileDto userProfileDto, Model model, Authentication authentication) {
+		authoritiesService.setAuthority(authentication);
+		model.addAttribute(authoritiesService);
+		userService.updateProfile(userService.getFindByUsername(authentication.getName()), userProfileDto);
+		return "redirect:profile";
 	}
 	
 	@GetMapping("profile-update-pass")

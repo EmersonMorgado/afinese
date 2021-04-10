@@ -18,6 +18,7 @@ public class UserProfile {
 	private LocalDate birthday;
 	private Sex sex;
 	private double height;
+	private double targetWeight;
 	
 	@OneToOne
 	private User user;
@@ -68,6 +69,14 @@ public class UserProfile {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public double getTargetWeight() {
+		return targetWeight;
+	}
+
+	public void setTargetWeight(double targetWeight) {
+		this.targetWeight = targetWeight;
 	}
 	
 }

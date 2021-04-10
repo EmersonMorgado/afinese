@@ -1,8 +1,6 @@
 package br.com.emersonmorgado.peso.controller.dto;
 
-import java.time.format.DateTimeFormatter;
-
-import br.com.emersonmorgado.peso.model.User;
+import java.time.LocalDate;
 
 public class UserProfileDto {
 
@@ -12,6 +10,8 @@ public class UserProfileDto {
 	private String birthday;
 	private String sex;
 	private String height;
+	private LocalDate birthdayDate;
+	private String targetWeight;
 
 	public String getUsername() {
 		return username;
@@ -61,13 +61,19 @@ public class UserProfileDto {
 		this.height = height;
 	}
 
-	public void setUser(User user) {
-		this.username = user.getUsername();
-		this.email = user.getEmail();
-		this.name = user.getUserProfile().getName();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		this.birthday = user.getUserProfile().getBirthday().format(formatter);
-		this.sex = user.getUserProfile().getSex().toString();
-		this.height = String.valueOf(user.getUserProfile().getHeight());		
+	public LocalDate getBirthdayDate() {
+		return birthdayDate;
+	}
+
+	public void setBirthdayDate(LocalDate birthdayDate) {
+		this.birthdayDate = birthdayDate;
+	}
+
+	public String getTargetWeight() {
+		return targetWeight;
+	}
+
+	public void setTargetWeight(String targetWeight) {
+		this.targetWeight = targetWeight;
 	}
 }
