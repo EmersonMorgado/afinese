@@ -16,7 +16,7 @@ public class UserProfile {
 	private Long id;
 	private String name;
 	private LocalDate birthday;
-	private Sex sex;
+	private Sex sex = Sex.NONE;
 	private double height;
 	private double targetWeight;
 	

@@ -43,6 +43,7 @@ public class UserService {
 	}
 
 	public void addUser(User user, Authorities authorities) {
+		user.setUserProfile(new UserProfile());
 		userRepository.save(user);
 		authoritiesRepository.save(authorities);
 	}
