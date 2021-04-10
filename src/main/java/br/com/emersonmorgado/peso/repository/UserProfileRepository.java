@@ -7,6 +7,10 @@ import br.com.emersonmorgado.peso.model.UserProfile;
 
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
+
+	UserProfile findByUserUsername(String username);
+
+	boolean existsByUserUsername(String username);
 }
 
 

@@ -73,8 +73,8 @@
 						      <td class="m-0 py-3 text-center" th:text="${weight.weight}">0.99</td>
 						      <td class="m-0 py-3 text-center">
 						      <div class="progress">
-								  <div 	th:style="'width:' + (${weight.weight} < ${weightsTarget} ? 100 : (100-(${weight.weight} % ${weightsTarget}))) +'%'" 
-								  		th:class="(${weight.weight} / ${weightsTarget}) > 1.10 ? 'progress-bar bg-danger' : ((${weight.weight} / ${weightsTarget}) > 1.05 ? 'progress-bar bg-warning' : ((${weight.weight} - ${weightsTarget}) > 1.5 ? 'progress-bar bg-info' : 'progress-bar bg-success') )" role="progressbar" 
+								  <div 	th:style="'width:' + (${weight.weight} < ${weightsTarget} ? 100 : ( (${weightsTarget} == 0 or ${weight.weight} == 0) ? '0': (100-(${weight.weight} % ${weightsTarget})))) +'%'" 
+								  		th:class="(${weightsTarget} == 0 or ${weight.weight} == 0)? 'progress-bar': ((${weight.weight} / ${weightsTarget}) > 1.10 ? 'progress-bar bg-danger' : ((${weight.weight} / ${weightsTarget}) > 1.05 ? 'progress-bar bg-warning' : ((${weight.weight} - ${weightsTarget}) > 1.5 ? 'progress-bar bg-info' : 'progress-bar bg-success')))" role="progressbar" 
 								  		aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" th:text="(${weight.weight} - ${weightsTarget})+' kg' ">
 								  </div>
 							  </div>
