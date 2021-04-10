@@ -18,7 +18,6 @@ public interface WeightRepository extends PagingAndSortingRepository<Weight, Lon
 
 	@Query(value = "SELECT w.weight, w.date FROM weight w", nativeQuery = true)
 	List<WeightProjection> findWeightSt();
-
 	//Weight findByDate(LocalDate date);
 
 }

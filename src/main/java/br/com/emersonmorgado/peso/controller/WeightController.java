@@ -40,13 +40,11 @@ public class WeightController {
 	public String addWeight(@PathVariable("page") Integer page, WeightForm weightForm, Model model, Authentication authentication){
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
-		
 		Sort sort = Sort.by(Sort.Direction.DESC,"date");
 		Pageable pageable = PageRequest.of(page, 10, sort);
 		Page<Weight> weights = weightService.findAllByUsername(authoritiesService.getAuthorities().getUsername(), pageable);		
-		System.out.println(weights.getNumber());
-		
 		model.addAttribute("weights", weights);
+		model.addAttribute("weightsTarget",weightService.getTargetWeight(authoritiesService.getAuthorities().getUsername()));
 		return "user/weight";
 	}
 	
@@ -59,6 +57,8 @@ public class WeightController {
 			Pageable pageable = PageRequest.of(0, 10, sort);
 			Page<Weight> weights = weightService.findAllByUsername(authoritiesService.getAuthorities().getUsername(),pageable);
 			model.addAttribute("weights", weights);
+			model.addAttribute("weightsTarget",weightService.getTargetWeight(authoritiesService.getAuthorities().getUsername()));
+
 			return "user/weight";
 		}
 		weightService.addWeigh(weightForm);

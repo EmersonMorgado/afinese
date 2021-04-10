@@ -2,84 +2,65 @@
 	<head th:replace="~{base :: head}"></head>
 	<body>
 		<div th:replace="~{base :: menutop}"></div>	
+		
 		<div class="container-fluid">
-			<div>
-				<main class="st_body pl-3">
-					<div class="card mx-auto m-3 p-3" style="width: 40rem;">
-						<div class="">
-							<form th:action="@{/user/weight-new}"  th:object="${weightForm}" method="post">
-						  		<div class="row g-4">
-						  			<input th:value="${authoritiesService.getAuthorities.getUsername}" class="form-control" th:errorclass="is-invalid" name="username" type="hidden"></input>
- 							    	<div class="col-md-1">
- 										<label name="weight" class="col-form-label" >Peso:</label>
- 									</div>	
-									<div class="col-md-4 ">
-										<input th:field="*{weight}" th:errorclass="is-invalid" type="number" step="0.01" name="weight" class="form-control" placeholder="Entre com peso" />
-		 								<div th:errors="*{weight}" class="invalid-feedback">error weight.</div>
-		 							</div>	
-									<div class="col-md-1">
-										<label name="date" class="col-form-label" >Data:</label>
-									</div>
-									<div class="col-auto">
-										<input th:field="*{date}" th:errorclass="is-invalid" type="date" class="form-control"></input>
-										<div th:errors="*{date}" class="invalid-feedback">error date</div>							
-									</div>
-										<button type="submit" class="btn btn-outline-secondary">OK</button> 
+		
+			<div class="card mx-auto m-3" style="width: 40rem;">
+				<div class="card-body">
+					<h4 class="card-title pb-2">Perfil do usuário</h4>				
+					<form th:action="@{/user/profile}"  th:object="${userProfileDto}" method="post">							
+						<div class="form-group">
+							<div class="py-2">
+								<label for="username">Usuário: </label>
+								<input th:errorclass="is-invalid" type="text" name="username" th:field="*{username}" class="form-control" readonly/>
+							</div>
+							<div class="py-2">							
+								<label for="email">E-mail: </label>
+								<input th:errorclass="is-invalid" type="text" name="email" th:field="*{email}" class="form-control" readonly/>
+							</div>
+							<div class="py-2">
+								<label  for="name">Nome</label>
+								<input th:errorclass="is-invalid" type="text" name="name" th:field="*{name}" class="form-control" placeholder="Nome completo" />
+							</div>
+							<div th:errors="*{name}" class="invalid-feedback">Erros</div>
+							<div class="row align-items-start pt-2">
+								<div class="col">
+									<label for="birthday">Data Nascimento</label>
+									<input th:errorclass="is-invalid" type="date" name="birthday" th:value="*{birthdayDate}" class="form-control"/>
+									<div th:errors="*{birthday}" class="invalid-feedback">Erros</div>
 								</div>
-							</form>
+								<div class="col">
+									<label for="sex">Gênero</label>
+									<select th:field="*{sex}" name="sex" class="form-select form-select-lg mb-3 form-control">
+									  <option value="">Informe o gênero</option>
+									  <option value="MALE">Masculino</option>
+									  <option value="FEMALE">Feminino</option>
+									</select>
+								</div>
+							</div>
+							<div class="row align-items-start pt-2">
+								<div class="col">
+									<label for="height">Altura (metros)</label>
+									<input th:errorclass="is-invalid" type="number" name="height" th:field="*{height}" class="form-control" placeholder="Altura" required min="0" max="2.2" value="0" step=".01"/>
+									<div th:errors="*{height}" class="invalid-feedback">Erros</div>	
+								</div>
+								<div class="col">
+									<label for="targetWeight">Meta (Kg)</label>
+									<input th:errorclass="is-invalid" type="number" name="targetWeight" th:field="*{targetWeight}" class="form-control" placeholder="Meta" required min="0" max="180" value="0" step=".01"/>
+									<div th:errors="*{targetWeight}" class="invalid-feedback">Erros</div>	
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="card mx-auto m-3 p-3" style="width: 40rem;">					
-					<div class="card-body">
-						<div th:data-page="${weights.getNumber}">
-							<span th:switch="${weights.hasPrevious}">
-								<a th:case="true" th:href="${weights.getNumber - 1}">
-									<img src="/icons/bootstrap-icons-1.1.0/arrow-bar-left.svg" alt="" width="20" height="20" title="Próxima página">
-								</a>
-							</span>
-							
-							<label class="">Pagina </label>
-							<span th:text="${weights.getNumber + 1}"> pages</span>
-							<label> de </label>
-							<span th:text="${weights.getTotalPages}"> total</span>
-							
-							<span th:switch="${weights.hasNext}">
-								<a th:case="true" th:href="${weights.getNumber + 1}">
-									<img src="/icons/bootstrap-icons-1.1.0/arrow-bar-right.svg" alt="" width="20" height="20" title="Próxima página">
-								</a>
-							</span>
+						<div class="row">
+							<div class="col align-self-end"></div>
+							<div class="col align-self-end">
+								<button class="btn btn-success px-4" type="submit">Atualizar</button>
+								<a class="btn btn-danger px-4 ml-3" href="/home">Cancelar</a>
+								<span class="text-danger" th:text="${serverInfo}">server info!</span>
+							</div>
 						</div>
-						
-						<table class="table" th:with="id = ${weights.getNumber * 10}">
-						  <thead>
-						    <tr>
-						      <th class=" text-center" scope="col">Item</th>
-						      <th class=" text-center" scope="col">Data</th>
-						      <th class=" text-center" scope="col">Peso</th>
-						      <th class=" text-center" scope="col">% Meta</th>
-						      <th class=" text-center" scope="col">Remover</th>
-						    </tr>
-						  </thead>
-						  <tbody>
-						    <tr th:each="weight,item: ${weights}" >
-						      <th class="m-0 py-3 text-center" th:text="${item.count + id}">linha</th>
-						      <td class="m-0 py-3 text-center" th:text="${weight.date}">Dates</td>
-						      <td class="m-0 py-3 text-center" th:text="${weight.weight}">0.99</td>
-						      <td class="m-0 py-3 text-center"> -</td>						      
-						      <td class="m-0 p-0 text-center">
-						      	<form class="m-0 p-0" action="#" th:action="@{/user/weight-delete}" method="post" th:data-date="${weight.date}" 
-						      		th:onsubmit="return confirm('Deseja excluir registro do dia : ' + this.getAttribute('data-date'))">
-						      		<input class="m-0 p-0" type="hidden" name="id"  th:value="${weight.id_weight}" />
-						      		<button type="submit" class="btn mt-1" ><img src="/icons/bootstrap-icons-1.1.0/trash.svg" alt="" width="20" height="20" title="Renover registro"></button>
-								</form>
-						      </td> 
-						    </tr>
-						  </tbody>
-						</table>
-					  </div>
-					</div>
+					</form>	
 				</div>
-				</main>
 			</div>
 		</div>
 	</body>

@@ -1,0 +1,34 @@
+<html>
+	<head th:replace="~{base :: head}"></head>
+	<body>
+		<div th:replace="~{base :: menutop}"></div>
+		<div class="container-fluid">
+			<div class="row flex-xl-nowrap">
+				<div class="card mx-auto m-3" style="width: 40rem;">
+					<div class="card-body">
+						<h4 class="card-title">Atualizar Email</h4>				
+						<form th:action="@{/user/profile-update-email}"  th:object="${updateEmailDto}" method="post">							
+							<div class="form-group">								
+								<label for="emailAtual">Email atual</label>
+								<p >
+									<span id="emailAtual" th:utext="*{email}">email atual</span>
+								</p>
+								<label for="email">Novo email</label>
+								<input th:errorclass="is-invalid" type="email" name="email" class="form-control" placeholder="Entre com o novo endereço de email" />
+								<div th:errors="*{email}" class="invalid-feedback">
+									Erros no email.
+								</div>						
+							</div>
+							<div class="pt-3">
+								<button class="btn btn-success px-4" type="submit">Atualizar</button>
+								<a class="btn btn-danger px-4 ml-3" href="/home">Cancelar</a>
+							</div>
+							<br>
+						</form>	
+						<span class="text-danger" th:text="${serverInfo}">server info!</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

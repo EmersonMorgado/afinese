@@ -6,6 +6,12 @@
 			<div>
 				<main class="st_body pl-3">
 					<div class="card mx-auto m-3 p-3" style="width: 40rem;">
+						<div id="chart_div" style="width: 100%; height: 150px;"></div>
+						<p class="pt-3 mb-0"> 
+						Meta: <span th:text="${weightsTarget}"></span> kg
+						</p>
+					</div>
+					<div class="card mx-auto m-3 p-3" style="width: 40rem;">
 						<div class="">
 							<form th:action="@{/user/weight-new}"  th:object="${weightForm}" method="post">
 						  		<div class="row g-4">
@@ -56,7 +62,7 @@
 						      <th class=" text-center" scope="col">Item</th>
 						      <th class=" text-center" scope="col">Data</th>
 						      <th class=" text-center" scope="col">Peso</th>
-						      <th class=" text-center" scope="col">% Meta</th>
+						      <th class=" text-center" scope="col">Meta</th>
 						      <th class=" text-center" scope="col">Remover</th>
 						    </tr>
 						  </thead>
@@ -65,7 +71,14 @@
 						      <th class="m-0 py-3 text-center" th:text="${item.count + id}">linha</th>
 						      <td class="m-0 py-3 text-center" th:text="${weight.date}">Dates</td>
 						      <td class="m-0 py-3 text-center" th:text="${weight.weight}">0.99</td>
-						      <td class="m-0 py-3 text-center"> -</td>						      
+						      <td class="m-0 py-3 text-center">
+						      <div class="progress">
+								  <div 	th:style="'width:' + (${weight.weight} < ${weightsTarget} ? 100 : ( (${weightsTarget} == 0 or ${weight.weight} == 0) ? '0': (100-(${weight.weight} % ${weightsTarget})))) +'%'" 
+								  		th:class="(${weightsTarget} == 0 or ${weight.weight} == 0)? 'progress-bar': ((${weight.weight} / ${weightsTarget}) > 1.10 ? 'progress-bar bg-danger' : ((${weight.weight} / ${weightsTarget}) > 1.05 ? 'progress-bar bg-warning' : ((${weight.weight} - ${weightsTarget}) > 1.5 ? 'progress-bar bg-info' : 'progress-bar bg-success')))" role="progressbar" 
+								  		aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" th:text="(${weight.weight} - ${weightsTarget})+' kg' ">
+								  </div>
+							  </div>
+						      </td>						      
 						      <td class="m-0 p-0 text-center">
 						      	<form class="m-0 p-0" action="#" th:action="@{/user/weight-delete}" method="post" th:data-date="${weight.date}" 
 						      		th:onsubmit="return confirm('Deseja excluir registro do dia : ' + this.getAttribute('data-date'))">
@@ -79,8 +92,38 @@
 					  </div>
 					</div>
 				</div>
+				
 				</main>
 			</div>
+			
 		</div>
+		<script type="text/javascript" th:inline="javascript">
+	      google.charts.load('current', {'packages':['corechart']});
+	      google.charts.setOnLoadCallback(drawChart);
+	
+	      function drawChart() {
+	        // Some raw data (not necessarily accurate)
+	        
+	        var data = new google.visualization.DataTable();
+	       	data.addColumn('string', 'Data');
+	        data.addColumn('number', 'Peso');
+	        data.addColumn('number', 'Meta');	 
+        	/*[# th:each="weight,item: ${weights}"]*/	
+	   			var obj = [ [[${weight.date}]] , [[${weight.weight}]], [[${weightsTarget}]] ];
+	   			data.addRow(obj);			
+			/*[/]*/
+			
+	        var options = {
+	          vAxis: {title: 'Kg'},
+	          seriesType: 'bars',
+	          bar: { groupWidth: '75%' },
+	          series: {1: {type: 'line'}},
+	          isStacked: {true:{ relative: '70%'}},
+			  legend: {position: 'none'}};
+	
+	        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+	        chart.draw(data, options);
+	      }
+	    </script>
 	</body>
 </html>
