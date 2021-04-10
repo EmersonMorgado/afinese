@@ -11,8 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.emersonmorgado.peso.controller.dto.UpdateEmailDto;
+import br.com.emersonmorgado.peso.controller.dto.UpdatePassDto;
 import br.com.emersonmorgado.peso.controller.dto.UpdateProfileDto;
+import br.com.emersonmorgado.peso.controller.dto.UserProfileDto;
 import br.com.emersonmorgado.peso.model.User;
+import br.com.emersonmorgado.peso.repository.UserProfileRepository;
+import br.com.emersonmorgado.peso.repository.UserRepository;
 import br.com.emersonmorgado.peso.service.AuthoritiesService;
 import br.com.emersonmorgado.peso.service.UserService;
 
@@ -27,27 +32,61 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping("profile")
-	public String updateUserForm(UpdateProfileDto updateProfileDto, Model model, Authentication authentication) {
+	public String geProfile(UserProfileDto userProfileDto, Model model, Authentication authentication) {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
-		User user = userService.getFindByUsername(authentication.getName());
-		updateProfileDto.setUser(user);
-		return "user/updateProfileForm";
+		userService.setUserProfile(userService.getFindByUsername(authentication.getName()), userProfileDto);
+		return "user/profile";
 	}
-
-	@PostMapping("profile-update")
-	public String updateUser(@Valid UpdateProfileDto updateProfileDto, BindingResult result, Model model, Authentication authentication) {
+	
+	@PostMapping("profile")
+	public String updateProfile(UserProfileDto userProfileDto, Model model, Authentication authentication) {
+		authoritiesService.setAuthority(authentication);
+		model.addAttribute(authoritiesService);
+		userService.updateProfile(userService.getFindByUsername(authentication.getName()), userProfileDto);
+		return "redirect:profile";
+	}
+	
+	@GetMapping("profile-update-pass")
+	public String updatePassword(UpdatePassDto updatePassDto, Model model, Authentication authentication) {
+		authoritiesService.setAuthority(authentication);
+		model.addAttribute(authoritiesService);
+		return "user/updateProfileFormPass";
+	}
+	@PostMapping("profile-update-pass")
+	public String updateUserPass(@Valid UpdatePassDto updatePassDto, BindingResult result, Model model, Authentication authentication) {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
 		if(result.hasErrors()) {
-			return "user/updateProfileForm";
+			return "user/updateProfileFormPass";
 		}
 		try {
-			userService.updateProfile(updateProfileDto);
+			userService.updatePassUserForm(updatePassDto, authentication.getName());
 		} catch (Exception e) {
-			model.addAttribute("passError", e.getMessage());
-			return "user/updateProfileForm";
+			model.addAttribute("serverInfo", e.getMessage());
+			return "user/updateProfileFormPass";
 		}
 		return "redirect:/home";
+	}
+	@GetMapping("profile-update-email")
+	public String updateEmail(UpdateEmailDto updateEmailDto, Model model, Authentication authentication) {
+		authoritiesService.setAuthority(authentication);
+		model.addAttribute(authoritiesService);
+		User user = userService.getFindByUsername(authentication.getName());
+		updateEmailDto.setUser(user);
+		return "user/updateProfileFormEmail";
+	}
+
+	@PostMapping("profile-update-email")
+	public String updateUserEmail(@Valid UpdateEmailDto updateEmailDto, BindingResult result, Model model, Authentication authentication) {
+		authoritiesService.setAuthority(authentication);
+		model.addAttribute(authoritiesService);
+		if(result.hasErrors()) {
+			User user = userService.getFindByUsername(authentication.getName());
+			updateEmailDto.setUser(user);
+			return "user/updateProfileFormEmail";
+		}
+		model.addAttribute("serverInfo", userService.updateEmail(updateEmailDto, authentication.getName()));
+		return "user/updateProfileFormEmail";
 	}
 }

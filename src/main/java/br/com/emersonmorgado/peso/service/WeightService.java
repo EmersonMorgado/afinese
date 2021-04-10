@@ -19,6 +19,9 @@ public class WeightService {
 	
 	@Autowired
 	private WeightRepository weightRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	public void addWeigh(WeightForm weightForm) {
 		Weight weight = new Weight();
@@ -26,8 +29,13 @@ public class WeightService {
 		user.setUsername(weightForm.getUsername());
 		weight.setUser(user);
 		weight.setWeight(Double.valueOf(weightForm.getWeight()));
-		weight.setDate(LocalDate.parse(weightForm.getDate()));
+		weight.setDate(LocalDate.parse(weightForm.getDate()));		
 		weightRepository.save(weight);		
+	}
+	
+	public Double getTargetWeight(String username) {
+		User user = userService.getFindByUsername(username);
+		return user.getUserProfile().getTargetWeight();
 	}
 
 	public Page<Weight> findAllByUsername(String username, Pageable pageable) {
