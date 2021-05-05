@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 @Entity
 public class Weight {
 	
@@ -16,6 +18,7 @@ public class Weight {
 	private Long id_weight;
 	private Double weight;
 	private LocalDate date;
+	private Double Targetweight;
 	
 	@ManyToOne
 	private User user;
@@ -50,6 +53,14 @@ public class Weight {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Double getTargetweight() {
+		return Targetweight;
+	}
+
+	public void setTargetweight(Double targetweight) {
+		Targetweight = targetweight;
 	}
 	
 }

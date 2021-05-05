@@ -1,27 +1,36 @@
 package br.com.emersonmorgado.peso.service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.emersonmorgado.peso.controller.dto.PageableDto;
 import br.com.emersonmorgado.peso.controller.dto.PassUpdateUserDto;
 import br.com.emersonmorgado.peso.controller.dto.UpdateEmailDto;
 import br.com.emersonmorgado.peso.controller.dto.UpdatePassDto;
 import br.com.emersonmorgado.peso.controller.dto.UpdateProfileDto;
 import br.com.emersonmorgado.peso.controller.dto.UpdateUserDto;
 import br.com.emersonmorgado.peso.controller.dto.UserProfileDto;
+import br.com.emersonmorgado.peso.controller.dto.WeightDto;
 import br.com.emersonmorgado.peso.model.Authorities;
 import br.com.emersonmorgado.peso.model.Sex;
 import br.com.emersonmorgado.peso.model.User;
 import br.com.emersonmorgado.peso.model.UserProfile;
 import br.com.emersonmorgado.peso.model.UserStatus;
+import br.com.emersonmorgado.peso.model.Weight;
 import br.com.emersonmorgado.peso.repository.AuthoritiesRepository;
 import br.com.emersonmorgado.peso.repository.UserRepository;
 
@@ -33,6 +42,9 @@ public class UserService {
 	
 	@Autowired
 	private AuthoritiesRepository authoritiesRepository;
+	
+	@Autowired
+	private WeightService weightservice;
 	
 	public List<User> findAll() {
 		return userRepository.findAll();
@@ -48,7 +60,7 @@ public class UserService {
 		authoritiesRepository.save(authorities);
 	}
 
-	public User getFindByUsername(String username) {
+	public User getUserFindByUsername(String username) {
 		return userRepository.findByUsername(username);
 	}
 
@@ -108,9 +120,23 @@ public class UserService {
 		userProfileDto.setSex(user.getUserProfile().getSex().toString());
 		userProfileDto.setHeight(String.valueOf(user.getUserProfile().getHeight()));
 		userProfileDto.setTargetWeight(String.valueOf(user.getUserProfile().getTargetWeight()));
+		Weight weight = new Weight();
+		Sort sort = Sort.by(Sort.Direction.DESC,"date");
+		Pageable pageable = PageRequest.of(0, 1, sort);
+		Page<Weight> weights = weightservice.findByUserUsername(user.getUsername(), pageable);
+		for (Weight weight_ : weights) {
+			weight = weight_;
+		}
+		userProfileDto.setLastWeightRegister(weight.getDate());
+		double pow = Math.pow(Double.valueOf(userProfileDto.getHeight()),2);
+		double div = (weight.getWeight() / pow);
+		userProfileDto.setLastWeight(Math.round(weight.getWeight()*100.0)/100.0);
+
+		
+		userProfileDto.setImc(Math.round(div*100.0)/100.0);
 	}
 	
-	public void updateProfile(User user, UserProfileDto userProfileDto) {
+	public void updateUserProfile(User user, UserProfileDto userProfileDto) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-dd-MM");
 		user.getUserProfile().setBirthday(LocalDate.parse(userProfileDto.getBirthday(), formatter));
 		user.getUserProfile().setHeight(Double.valueOf(userProfileDto.getHeight()));

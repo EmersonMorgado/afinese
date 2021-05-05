@@ -11,7 +11,7 @@ import br.com.emersonmorgado.peso.repository.UserProfileRepository;
 import br.com.emersonmorgado.peso.repository.UserRepository;
 
 @Service
-public class ServiceUserProfile {
+public class UserProfileSevice {
 
 	@Autowired
 	private UserProfileRepository userProfileRepository;
@@ -19,12 +19,17 @@ public class ServiceUserProfile {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public void addUserPrifile(UserProfileForm userProfileForm, Principal principal) throws Exception {
+	public void addUserProfile(UserProfileForm userProfileForm, Principal principal) throws Exception {
 		UserProfile userProfile = userProfileForm.addUserProfile();		
 		if(userRepository.existsById(userProfile.getUser().getUsername())) {
 			userProfileRepository.save(userProfile);
 		}else {
 			throw new Exception("username not found");
 		}
+	}
+
+	public Double findTargetWeightByUsername(String username) {
+		UserProfile userProfile = userProfileRepository.findByUserUsername(username);	
+		return userProfile.getTargetWeight();	
 	}
 }

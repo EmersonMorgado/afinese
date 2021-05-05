@@ -12,6 +12,9 @@ public class UserProfileDto {
 	private String height;
 	private LocalDate birthdayDate;
 	private String targetWeight;
+	private Double imc;
+	private LocalDate LastWeightRegister;
+	private Double LastWeight;
 
 	public String getUsername() {
 		return username;
@@ -76,4 +79,28 @@ public class UserProfileDto {
 	public void setTargetWeight(String targetWeight) {
 		this.targetWeight = targetWeight;
 	}
+	public Double getImc() {
+		return imc;
+	}
+
+	public void setImc(Double imc) {
+		this.imc = imc;
+	}
+
+	public LocalDate getLastWeightRegister() {
+		return LastWeightRegister;
+	}
+
+	public void setLastWeightRegister(LocalDate lastWeightRegister) {
+		LastWeightRegister = lastWeightRegister;
+	}
+
+	public Double getLastWeight() {
+		return LastWeight;
+	}
+
+	public void setLastWeight(Double lastWeight) {
+		LastWeight = lastWeight;
+	}
+	
 }

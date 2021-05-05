@@ -41,17 +41,75 @@
 							<div class="row align-items-start pt-2">
 								<div class="col">
 									<label for="height">Altura (metros)</label>
-									<input th:errorclass="is-invalid" type="number" name="height" th:field="*{height}" class="form-control" placeholder="Altura" required min="0" max="2.2" value="0" step=".01"/>
+									<input th:errorclass="is-invalid" type="number" name="height" th:field="*{height}" class="form-control" placeholder="Altura" required min="1" max="2.2" value="0" step=".01"/>
 									<div th:errors="*{height}" class="invalid-feedback">Erros</div>	
 								</div>
 								<div class="col">
 									<label for="targetWeight">Meta (Kg)</label>
-									<input th:errorclass="is-invalid" type="number" name="targetWeight" th:field="*{targetWeight}" class="form-control" placeholder="Meta" required min="0" max="180" value="0" step=".01"/>
+									<input th:errorclass="is-invalid" type="number" name="targetWeight" th:field="*{targetWeight}" class="form-control" placeholder="Meta" required min="1" max="180" value="0" step=".01"/>
 									<div th:errors="*{targetWeight}" class="invalid-feedback">Erros</div>	
 								</div>
 							</div>
 						</div>
-						<div class="row">
+						<div>
+							<table class="table table-striped">
+							   <label>Legenda</label>
+							  <thead>
+							    <tr>
+							      <th scope="col">IMC</th>
+							      <th scope="col">Classificação</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr>
+							      <th scope="row">&lt; 18,5</th>
+							      <td>Peso Baixo</td>
+							    </tr>
+							    <tr>
+							      <th scope="row">18,5 - 24,9</th>
+							      <td>Peso normal</td>
+							    </tr>
+							    <tr>
+							      <th scope="row">25,0 - 29,9</th>
+							      <td>Sobrepeso</td>
+							    </tr>
+							    <tr>
+							      <th scope="row">30,0 - 34,9</th>
+							      <td>Obesidade (Grau I)</td>
+							    </tr>
+							    <tr>
+							      <th scope="row">35,0 - 39,9</th>
+							      <td>Obesidade Severa (Grau II)</td>
+							    </tr>
+							    <tr>
+							      <th scope="row">&ge; 40,0</th>
+							      <td>Obesidade Mórbida (Grau III)</td>
+							    </tr>
+							  </tbody>
+							</table>
+						</div>
+						<div class="p-4">
+							<div>
+								<span th:text="'Último peso registrado: ' + ${userProfileDto.getLastWeight} + ' kg, no dia '"></span><input th:value="${userProfileDto.getLastWeightRegister}" style=" background-color:inherit; border-style: hidden;" type="date"   class="no-outline" disabled>
+							</div>
+							<div class="" th:text="'O seu IMC calculado é: ' + ${userProfileDto.getImc}"></div>
+						</div>
+						<div class="pt-4 px-2">
+							<div class="progress">
+							  <div class="progress-bar bg-light text-dark" role="progressbar" style="width: 14%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">MAGREZA</div>
+							  <div class="progress-bar bg-light text-dark" role="progressbar" style="width: 20%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">NORMAL</div>
+							  <div class="progress-bar bg-light text-dark" role="progressbar" style="width: 16%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">SOBREPESO </div>
+							  <div class="progress-bar bg-light text-dark" role="progressbar" style="width: 18%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">OBESIDADE I</div>
+							  <div class="progress-bar bg-light text-dark" role="progressbar" style="width: 15%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">OBESIDADE II</div>
+						 	  <div class="progress-bar bg-light text-dark" role="progressbar" style="width: 17%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">OBESIDADE III</div>
+							</div>	
+						</div>
+						
+						<div class="progressbar " style="width:100%;"></div>
+						<div class="slide-container ">
+						     <input type="range" min="15.0" max="45.0" th:value="${userProfileDto.getImc}"  th:title="${userProfileDto.getImc}" class="slider" id="myRange" disabled>
+						</div>
+						<div class="row py-5">
 							<div class="col align-self-end"></div>
 							<div class="col align-self-end">
 								<button class="btn btn-success px-4" type="submit">Atualizar</button>
@@ -63,5 +121,13 @@
 				</div>
 			</div>
 		</div>
+		<script>
+			document.getElementById("myinput").oninput = function() {
+				  var value = (this.value-this.min)/(this.max-this.min)*100
+				  this.style.background = 'linear-gradient(to right, #82CFD0 0%, #82CFD0 ' + value + '%, #fff ' + value + '%, white 100%)'
+				};
+			
+		</script>
+
 	</body>
 </html>

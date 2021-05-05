@@ -67,7 +67,7 @@ public class AdminController {
 	public String updateUserForm(@PathVariable("username") String username, UpdateUserDto updateUserDto, Model model, Authentication authentication) {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
-		User user = userService.getFindByUsername(username);
+		User user = userService.getUserFindByUsername(username);
 		updateUserDto.setUser(user);
 		return "admin/updateUserForm";
 	}

@@ -35,7 +35,7 @@ public class UserController {
 	public String geProfile(UserProfileDto userProfileDto, Model model, Authentication authentication) {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
-		userService.setUserProfile(userService.getFindByUsername(authentication.getName()), userProfileDto);
+		userService.setUserProfile(userService.getUserFindByUsername(authentication.getName()), userProfileDto);
 		return "user/profile";
 	}
 	
@@ -43,7 +43,7 @@ public class UserController {
 	public String updateProfile(UserProfileDto userProfileDto, Model model, Authentication authentication) {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
-		userService.updateProfile(userService.getFindByUsername(authentication.getName()), userProfileDto);
+		userService.updateUserProfile(userService.getUserFindByUsername(authentication.getName()), userProfileDto);
 		return "redirect:profile";
 	}
 	
@@ -72,7 +72,7 @@ public class UserController {
 	public String updateEmail(UpdateEmailDto updateEmailDto, Model model, Authentication authentication) {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
-		User user = userService.getFindByUsername(authentication.getName());
+		User user = userService.getUserFindByUsername(authentication.getName());
 		updateEmailDto.setUser(user);
 		return "user/updateProfileFormEmail";
 	}
@@ -82,7 +82,7 @@ public class UserController {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
 		if(result.hasErrors()) {
-			User user = userService.getFindByUsername(authentication.getName());
+			User user = userService.getUserFindByUsername(authentication.getName());
 			updateEmailDto.setUser(user);
 			return "user/updateProfileFormEmail";
 		}

@@ -12,8 +12,8 @@ public class WeightForm {
 	
 	@NotBlank
 	private String date;
-	
 	private String id;
+	private String TargetWeight;
 	
 	public String getId() {
 		return id;
@@ -38,5 +38,11 @@ public class WeightForm {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public String getTargetWeight() {
+		return TargetWeight;
+	}
+	public void setTargetWeight(String targetWeight) {
+		TargetWeight = targetWeight;
 	}
 }

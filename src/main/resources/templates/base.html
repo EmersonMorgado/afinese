@@ -33,7 +33,58 @@
 		.st_login_form{
 		background-color:rgb(238, 238, 236)
 		}
+
+		.slider-wrapper input {
+		  width: 100%;
+		  height: 1px;
+		  background-image: url('https://img.icons8.com/material-outlined/344/average-2.png');
+		  
+		}
 		
+		.progressbar {
+		    height: 15px;
+		    border-radius: 1em;
+		    margin:5px;
+		    background: linear-gradient(to right, red 10%, green 12%, green 33%, yellow 35%, yellow 48%, rgb(245, 121, 0) 52%, red 70%, red 75%);
+		  box-shadow:inset 0px -2px 5px rgba(0, 0, 0, 0.5);
+		}
+		
+		.slide-container {
+		  width: 100%;
+		}
+		
+		.slider {
+		  -webkit-appearance: none;
+		  width: 100%;
+		  height: 5px;
+		  border-radius: 5px;
+		  background: #FFFFFF;
+		  outline: none;
+		  opacity: 0.7;
+		  -webkit-transition: .2s;
+		  transition: opacity .2s;
+		}
+		
+		.slider:hover {
+		  opacity: 1;
+		}
+		
+		.slider::-webkit-slider-thumb {
+		  -webkit-appearance: none;
+		  appearance: none;
+		  width: 23px;
+		  height: 24px;
+		  border: 0;
+		    border-radius: 50%;
+		  background-image: url("/icons/bootstrap-icons-1.1.0/caret-up-fill.svg");
+		  background-size: contain;
+		  background-position: center center;
+		  background-repeat: no-repeat;
+		  cursor: pointer;
+		}
+
+
+
 	</style>
 	<title>Web Peso</title>
 </head>
@@ -69,7 +120,6 @@
 			<div class="dropdown-menu dropdown-menu-right"  >
 				<h6 class="dropdown-header">Ajustes</h6>
 				<a class="dropdown-item" th:href="@{/user/profile}">Dados Pessoais</a>
-				<a class="dropdown-item" th:href="@{/user/profile}">Meta</a>
 				<div class="dropdown-divider"></div>
 				<a class="dropdown-item" th:href="@{/user/profile-update-email}">Atualizar email</a>
 				<a class="dropdown-item" th:href="@{/user/profile-update-pass}">Trocar senha</a>

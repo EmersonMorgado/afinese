@@ -3,10 +3,6 @@ package br.com.emersonmorgado.peso.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.emersonmorgado.peso.controller.dto.PageableDto;
 import br.com.emersonmorgado.peso.controller.form.WeightForm;
-import br.com.emersonmorgado.peso.model.Weight;
 import br.com.emersonmorgado.peso.service.AuthoritiesService;
 import br.com.emersonmorgado.peso.service.WeightService;
 
@@ -40,11 +36,8 @@ public class WeightController {
 	public String addWeight(@PathVariable("page") Integer page, WeightForm weightForm, Model model, Authentication authentication){
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
-		Sort sort = Sort.by(Sort.Direction.DESC,"date");
-		Pageable pageable = PageRequest.of(page, 10, sort);
-		Page<Weight> weights = weightService.findAllByUsername(authoritiesService.getAuthorities().getUsername(), pageable);		
+		PageableDto weights = weightService.findWeightsByUsername(authoritiesService.getAuthorities().getUsername(), 15, page);
 		model.addAttribute("weights", weights);
-		model.addAttribute("weightsTarget",weightService.getTargetWeight(authoritiesService.getAuthorities().getUsername()));
 		return "user/weight";
 	}
 	
@@ -53,12 +46,8 @@ public class WeightController {
 		authoritiesService.setAuthority(authentication);
 		model.addAttribute(authoritiesService);
 		if(result.hasErrors()) {
-			Sort sort = Sort.unsorted();
-			Pageable pageable = PageRequest.of(0, 10, sort);
-			Page<Weight> weights = weightService.findAllByUsername(authoritiesService.getAuthorities().getUsername(),pageable);
+			PageableDto weights = weightService.findWeightsByUsername(authoritiesService.getAuthorities().getUsername(), 15, 0);
 			model.addAttribute("weights", weights);
-			model.addAttribute("weightsTarget",weightService.getTargetWeight(authoritiesService.getAuthorities().getUsername()));
-
 			return "user/weight";
 		}
 		weightService.addWeigh(weightForm);
